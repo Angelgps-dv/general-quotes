@@ -1,6 +1,29 @@
+"use client";
+
 import Image from "next/image";
 
 export default function Home() {
+  const apiKey = "lp+Qt1Fvr93NpOr+ZpgUcQ==gGGwRgUpAWvd0R0W";
+  const author = "Albert Einstein";
+
+  const getQuote = async () => {
+    const response = await fetch(
+      `https://api.api-ninjas.com/v1/quotes?author=${encodeURIComponent(
+        author
+      )}`,
+      {
+        method: "GET",
+        headers: {
+          "X-Api-Key": apiKey,
+        },
+      }
+    );
+    const data = await response.json();
+
+    console.log({ data });
+
+    return data.quote;
+  };
   return (
     <div
       id="root"
@@ -12,7 +35,7 @@ export default function Home() {
         </div>
       </header>
       <div className="absolute top-[15%] mt-4 max-w-4xl mx-6 md:mx-auto md:ml-[2rem] md:mr-[2rem] border-2 border-gray-700 p-6 bg-black text-white rounded-md font-serif">
-        <div className="text-center text-xl mb-4">Thomas Jefferson</div>
+        <div className="text-center text-xl mb-4">Albert Einstein</div>
         <div className="flex flex-col md:flex-row items-center gap-6">
           <Image
             width={250}
@@ -21,16 +44,22 @@ export default function Home() {
             alt="placeholder"
             className="object-cover rounded-md"
           />
-          <p className="text-lg leading-relaxed">
-            “Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry standard dummy text ever
-            since the 1500s...”
-          </p>
+          <p className="text-lg leading-relaxed">{getQuote()}</p>
         </div>
         <div className="mt-6 text-center text-sm text-gray-400 flex justify-between">
-          <div className="hover:text-white hover:cursor-pointer">PREVIOUS</div>
+          <div
+            onClick={(e) => console.log(e)}
+            className="hover:text-white hover:cursor-pointer"
+          >
+            PREVIOUS
+          </div>
           <div>1 / 10</div>
-          <div className="hover:text-white hover:cursor-pointer">NEXT</div>
+          <div
+            onClick={(e) => console.log(e)}
+            className="hover:text-white hover:cursor-pointer"
+          >
+            NEXT
+          </div>
         </div>
       </div>
     </div>
