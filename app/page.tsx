@@ -42,41 +42,29 @@ export default function Home() {
           QUOTE GENERATOR
         </div>
       </header>
-      {isLoading ? (
-        <div className="absolute top-[15%] mt-4 max-w-4xl mx-6 md:mx-auto md:ml-[2rem] md:mr-[2rem] border-2 border-gray-700 p-6 bg-black text-white rounded-md font-serif md:w-[70%] md:h-[40%] md:justify-between flex md:flex-col md:items-start">
-          <div className="text-center text-xl mb-4">...</div>
-          <p className="text-lg leading-relaxed">...</p>
-          <div className="w-full mt-6 text-center text-sm text-gray-400 flex justify-between">
-            <div className="hover:text-white hover:cursor-pointer">
-              PREVIOUS
-            </div>
-            <div>.. / ..</div>
-            <div className="hover:text-white hover:cursor-pointer">NEXT</div>
+      <div className="absolute top-[15%] mt-4 max-w-4xl mx-6 md:mx-auto md:ml-[2rem] md:mr-[2rem] border-2 border-gray-700 p-6 bg-black text-white rounded-md font-serif md:w-[70%] min-h-[40%] justify-between flex items-start flex-col">
+        <div className="text-[#ccc] text-center text-xl mb-4">
+          {isLoading ? "..." : quote[index]?.author}
+        </div>
+        <p className="text-[#ccc] text-lg leading-relaxed">
+          {isLoading ? "..." : quote[index]?.content}
+        </p>
+        <div className="text-[#ccc] w-full mt-6 text-center text-sm text-gray-400 flex justify-between">
+          <div
+            onClick={() => handleQuote("PREVIOUS")}
+            className="hover:text-white hover:cursor-pointer"
+          >
+            PREVIOUS
+          </div>
+          <div>{isLoading ? ".. / .." : `${index + 1} / ${quote.length}`}</div>
+          <div
+            onClick={() => handleQuote("NEXT")}
+            className="hover:text-white hover:cursor-pointer"
+          >
+            NEXT
           </div>
         </div>
-      ) : (
-        <div className="absolute top-[15%] mt-4 max-w-4xl mx-6 md:mx-auto md:ml-[2rem] md:mr-[2rem] border-2 border-gray-700 p-6 bg-black text-white rounded-md font-serif md:w-[70%] md:h-[40%] md:justify-between flex md:flex-col md:items-start">
-          <div className="text-center text-xl mb-4">{quote[index]?.author}</div>
-          <p className="text-lg leading-relaxed">{quote[index]?.content}</p>
-          <div className="w-full mt-6 text-center text-sm text-gray-400 flex justify-between">
-            <div
-              onClick={() => handleQuote("PREVIOUS")}
-              className="hover:text-white hover:cursor-pointer"
-            >
-              PREVIOUS
-            </div>
-            <div>
-              {index + 1} / {quote.length}
-            </div>
-            <div
-              onClick={() => handleQuote("NEXT")}
-              className="hover:text-white hover:cursor-pointer"
-            >
-              NEXT
-            </div>
-          </div>
-        </div>
-      )}
+      </div>
     </div>
   );
 }
