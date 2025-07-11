@@ -14,10 +14,8 @@ export default function Home() {
   const [index, setIndex] = useState(0);
 
   const handleQuote = async (type: string) => {
-    if (type === "NEXT" && index < quote.length) {
-      // console.log(index, "before");
+    if (type === "NEXT" && index < quote.length - 1) {
       setIndex(index + 1);
-      // console.log(index, "after");
     } else if (type === "PREVIOUS" && index > 0) {
       setIndex(index - 1);
     }
@@ -53,7 +51,9 @@ export default function Home() {
           >
             PREVIOUS
           </div>
-          <div>{index} / 10</div>
+          <div>
+            {index + 1} / {quote.length}
+          </div>
           <div
             onClick={() => handleQuote("NEXT")}
             className="hover:text-white hover:cursor-pointer"
