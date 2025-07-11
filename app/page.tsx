@@ -5,18 +5,21 @@ import { useState } from "react";
 import { useEffect } from "react";
 
 export default function Home() {
-  const [quote, setQuote] = useState<any>("");
+  type Quote = {
+    author: string;
+    content: string;
+  };
+
+  const [quote, setQuote] = useState<Quote[]>([]);
   const [index, setIndex] = useState(0);
 
   const handleQuote = async (type: string) => {
-    if (type === "NEXT") {
-      if (index < quote.length - 1) {
-        setIndex(index + 1);
-      } else return index;
-    } else if (type === "PREVIOUS") {
-      if (index > 0) {
-        setIndex(index - 1);
-      } else return index;
+    if (type === "NEXT" && index < quote.length) {
+      // console.log(index, "before");
+      setIndex(index + 1);
+      // console.log(index, "after");
+    } else if (type === "PREVIOUS" && index > 0) {
+      setIndex(index - 1);
     }
   };
 
@@ -28,7 +31,6 @@ export default function Home() {
 
   useEffect(() => {
     fetchQuote();
-    // setIndex(quote.length)
   }, []);
 
   return (
@@ -42,15 +44,8 @@ export default function Home() {
         </div>
       </header>
       <div className="absolute top-[15%] mt-4 max-w-4xl mx-6 md:mx-auto md:ml-[2rem] md:mr-[2rem] border-2 border-gray-700 p-6 bg-black text-white rounded-md font-serif md:w-[70%] md:h-[40%] md:justify-between flex md:flex-col md:items-start">
-        <div className="text-center text-xl mb-4">
-          {quote[index]?.author}
-          {/* AUTHOR */}
-        </div>
-        <p className="text-lg leading-relaxed">
-          {quote[index]?.content}
-          {/* QUOTE */}
-        </p>
-        {/* </div> */}
+        <div className="text-center text-xl mb-4">{quote[index]?.author}</div>
+        <p className="text-lg leading-relaxed">{quote[index]?.content}</p>
         <div className="w-full mt-6 text-center text-sm text-gray-400 flex justify-between">
           <div
             onClick={() => handleQuote("PREVIOUS")}
@@ -59,7 +54,6 @@ export default function Home() {
             PREVIOUS
           </div>
           <div>{index} / 10</div>
-          {/* <div>1 / 10</div> */}
           <div
             onClick={() => handleQuote("NEXT")}
             className="hover:text-white hover:cursor-pointer"
