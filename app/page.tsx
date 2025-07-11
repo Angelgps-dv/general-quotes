@@ -25,11 +25,11 @@ export default function Home() {
     const res = await fetch("https://api.quotable.io/quotes/random?limit=10");
     const data = await res.json();
     setQuote(data);
+    setIsLoading(false);
   };
 
   useEffect(() => {
     fetchQuote();
-    setIsLoading(false);
   }, []);
 
   return (
