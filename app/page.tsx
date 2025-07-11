@@ -1,29 +1,36 @@
 "use client";
 
-import Image from "next/image";
+// import Image from "next/image";
+import { useState } from "react";
+import { useEffect } from "react";
 
 export default function Home() {
-  const apiKey = "lp+Qt1Fvr93NpOr+ZpgUcQ==gGGwRgUpAWvd0R0W";
-  const author = "Albert Einstein";
+  const [quote, setQuote] = useState<any>("");
+  const [index, setIndex] = useState(0);
 
-  const getQuote = async () => {
-    const response = await fetch(
-      `https://api.api-ninjas.com/v1/quotes?author=${encodeURIComponent(
-        author
-      )}`,
-      {
-        method: "GET",
-        headers: {
-          "X-Api-Key": apiKey,
-        },
-      }
-    );
-    const data = await response.json();
-
-    console.log({ data });
-
-    return data.quote;
+  const handleQuote = async (type: string) => {
+    if (type === "NEXT") {
+      if (index < quote.length - 1) {
+        setIndex(index + 1);
+      } else return index;
+    } else if (type === "PREVIOUS") {
+      if (index > 0) {
+        setIndex(index - 1);
+      } else return index;
+    }
   };
+
+  const fetchQuote = async () => {
+    const res = await fetch("https://api.quotable.io/quotes/random?limit=10");
+    const data = await res.json();
+    setQuote(data);
+  };
+
+  useEffect(() => {
+    fetchQuote();
+    // setIndex(quote.length)
+  }, []);
+
   return (
     <div
       id="root"
@@ -34,28 +41,27 @@ export default function Home() {
           QUOTE GENERATOR
         </div>
       </header>
-      <div className="absolute top-[15%] mt-4 max-w-4xl mx-6 md:mx-auto md:ml-[2rem] md:mr-[2rem] border-2 border-gray-700 p-6 bg-black text-white rounded-md font-serif">
-        <div className="text-center text-xl mb-4">Albert Einstein</div>
-        <div className="flex flex-col md:flex-row items-center gap-6">
-          <Image
-            width={250}
-            height={250}
-            src="/assets/placeholder-image.webp"
-            alt="placeholder"
-            className="object-cover rounded-md"
-          />
-          <p className="text-lg leading-relaxed">{getQuote()}</p>
+      <div className="absolute top-[15%] mt-4 max-w-4xl mx-6 md:mx-auto md:ml-[2rem] md:mr-[2rem] border-2 border-gray-700 p-6 bg-black text-white rounded-md font-serif md:w-[70%] md:h-[40%] md:justify-between flex md:flex-col md:items-start">
+        <div className="text-center text-xl mb-4">
+          {quote[index]?.author}
+          {/* AUTHOR */}
         </div>
-        <div className="mt-6 text-center text-sm text-gray-400 flex justify-between">
+        <p className="text-lg leading-relaxed">
+          {quote[index]?.content}
+          {/* QUOTE */}
+        </p>
+        {/* </div> */}
+        <div className="w-full mt-6 text-center text-sm text-gray-400 flex justify-between">
           <div
-            onClick={(e) => console.log(e)}
+            onClick={() => handleQuote("PREVIOUS")}
             className="hover:text-white hover:cursor-pointer"
           >
             PREVIOUS
           </div>
-          <div>1 / 10</div>
+          <div>{index} / 10</div>
+          {/* <div>1 / 10</div> */}
           <div
-            onClick={(e) => console.log(e)}
+            onClick={() => handleQuote("NEXT")}
             className="hover:text-white hover:cursor-pointer"
           >
             NEXT
