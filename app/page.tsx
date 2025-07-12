@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import { useEffect } from "react";
 
@@ -25,6 +26,7 @@ export default function Home() {
     const res = await fetch("https://api.quotable.io/quotes/random?limit=10");
     const data = await res.json();
     setQuote(data);
+    setIndex(0);
     setIsLoading(false);
   };
 
@@ -42,9 +44,23 @@ export default function Home() {
           QUOTE GENERATOR
         </div>
       </header>
-      <div className="absolute top-[15%] mt-4 max-w-4xl mx-6 md:mx-auto md:ml-[2rem] md:mr-[2rem] border-2 border-gray-700 p-6 bg-black text-white rounded-md font-serif md:w-[70%] min-h-[40%] justify-between flex items-start flex-col">
-        <div className="text-[#ccc] text-center text-xl mb-4">
-          {isLoading ? "..." : quote[index]?.author}
+      <div className="absolute top-[15%] mt-4 max-w-4xl mx-6 md:mx-auto md:ml-[2rem] md:mr-[2rem] border-2 border-gray-700 p-6 bg-black text-white rounded-md font-serif md:w-[70%] w-[90%] min-h-[40%] justify-between flex items-start flex-col">
+        <div className="flex justify-between gap-[1rem] items-center w-full">
+          <div className="text-[#ccc] text-center text-xl mb-4o">
+            {isLoading ? "..." : quote[index]?.author}
+          </div>
+          <div onClick={fetchQuote} className="hover:cursor-pointer">
+            {isLoading ? (
+              "..."
+            ) : (
+              <Image
+                src="/assets/reload-icon.svg"
+                alt="reload"
+                width="21"
+                height="21"
+              />
+            )}
+          </div>
         </div>
         <p className="text-[#ccc] text-lg leading-relaxed">
           {isLoading ? "..." : quote[index]?.content}
