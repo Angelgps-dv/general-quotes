@@ -1,8 +1,7 @@
 "use client";
-// import { useCategoryData } from "../utils/useCategoryData";
 import { useState } from "react";
 import { Quote } from "./quote";
-import { categoryData } from "@/utils/categoryData";
+import { categoryData, useRandomCategory } from "@/utils/categoryData";
 
 type Quote = {
   author: string;
@@ -27,6 +26,10 @@ export const Category = () => {
     setChange(true);
   };
 
+  // const handleRender = () => {
+
+  // }
+
   return (
     <div className="grid grid-cols-3 gap-[2rem] absolute top-[15%]">
       {change ? (
@@ -43,7 +46,7 @@ export const Category = () => {
               {item.category}
             </div>
           ))}
-          <div onClick={handleCategory} className="hover:cursor-pointer">
+          <div onClick={useRandomCategory} className="hover:cursor-pointer">
             Random Category
           </div>
         </>
